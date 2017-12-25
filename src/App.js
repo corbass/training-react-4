@@ -85,13 +85,16 @@ class App extends Component {
 							}} />
 						</div>
 
-						<div >
+						<div style={{
+							overflow:"hidden",
+							height:"104%",
+							marginTop:"-1.5%"
+						}}>
 							<img align="center" className="App-logo" src={Image.balle}  alt="logo" style={{
-								height:"100%",
-								marginTop:"-6%",
-								marginBottom:"-3%",
+
+								height:"89%",
 							}} />
-							<h1 align="center" style={{marginTop:"-8px"}}>Brand :{this.state.shop}</h1>
+							<h1 align="center" style={{marginTop:"-15px"}}>Brand :{this.state.shop}</h1>
 						</div>
 
 						<div align="right" style={{height:"169px",}}>
