@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import * as Image from './Image.js';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -24,6 +24,9 @@ import {
 import Home from './components/Home';
 import Board from './components/Board';
 import OrderHistoric from './components/OrderHistoric';
+import Store from './components/Store';
+import Cart from './components/Cart';
+import Inventory from './components/Inventory';
 
 
 class App extends Component {
@@ -47,6 +50,7 @@ class App extends Component {
 		this.setState({article});
 	}
 
+
 	state = {
 
 		article:{ 	 	
@@ -58,27 +62,57 @@ class App extends Component {
 		},
 
 		windows:0,
-		shop:"",
+		shop:"Le royaume de la soude",
+		totalPrice:0,
 		
 	}
 
 	render() {
+		let totalPrice = 0;
+		this.props.articles.cart.map((item, index) => {
+			totalPrice += item.article.price*item.article.quantity;
+
+
+		})
+
 		return (
 			<div className="App">
-				<header className="App-header">
-
-					<img  src={logo} className="App-logo" alt="logo" style={{
-						height:"70%	"
-					}} />
-					{console.log("shop :",this.state.shop)}
-					<h1 style={{marginTop:"-8px"}}>Brand :{this.state.shop}</h1>
-					{
-					this.state.windows != 0 ?
-						<div style={{marginTop:"-10px"}}>
-							<button onClick={() => this.setState({windows:1}) }>Board</button>
-							<button onClick={() => this.setState({windows:2}) }>Order historic</button>
+				<header className="App-header" >
+					<div style={{height:"169px", display:"flex",justifyContent: "space-between",}}>
+						<div style={{height:"169px",}}>
+							<img align="left" src={Image.electrisen}  alt="logo" style={{
+								height:"110%",
+							}} />
 						</div>
-					:""
+
+						<div >
+							<img align="center" className="App-logo" src={Image.balle}  alt="logo" style={{
+								height:"100%",
+								marginTop:"-6%",
+								marginBottom:"-3%",
+							}} />
+							<h1 align="center" style={{marginTop:"-8px"}}>Brand :{this.state.shop}</h1>
+						</div>
+
+						<div align="right" style={{height:"169px",}}>
+							<img align="right" src={Image.soude}  alt="logo" style={{
+								height:"110%",
+								
+							}} />
+						</div>
+					</div>
+
+					{
+					<div style={{marginTop:"-10px"}}>
+						<button onClick={() => this.setState({windows:0}) }>Home</button>
+						<button onClick={() => this.setState({windows:1}) }>Board</button>
+						<button onClick={() => this.setState({windows:2}) }>Order historic</button>
+						<button onClick={() => this.setState({windows:3}) }>Store</button>
+						<button onClick={() => this.setState({windows:4}) }>Inventory</button>
+						<button onClick={() => this.setState({windows:5}) }>Cart</button>
+
+					</div>
+				
 					}
 				</header>
 				
@@ -87,6 +121,7 @@ class App extends Component {
 
 					this.state.windows == 0 ?
 							<Home
+								Image={Image}
 								shop={this.state.shop}
 								windows={this.state.windows}
 								setState={this.setState.bind(this)}
@@ -100,6 +135,8 @@ class App extends Component {
 								cart={this.props.articles.cart}
 
 								article={this.state.article}
+								totalPrice={totalPrice}
+								windows={this.state.windows}
 
 								setState={this.setState.bind(this)}
 								articles_add_article={this.props.articles_add_article}
@@ -116,11 +153,45 @@ class App extends Component {
 								articles_cart_delete={this.props.articles_cart_delete}
 								cart_reset={this.props.cart_reset}
 								cart_confirm={this.props.cart_confirm}
+
 							/>
 					: this.state.windows == 2 ? 
 							<OrderHistoric
-
 								orders={this.props.orders}
+							/>
+					: this.state.windows == 3 ? 
+							<Store
+								items={this.props.items}
+								articles_add_cart={this.props.articles_add_cart}
+								windows={this.state.windows}
+							/>
+					: this.state.windows == 4 ? 
+							<Inventory
+								items={this.props.items}
+								edits={this.props.articles.edits}
+								article={this.state.article}
+								verifForm={this.verifForm.bind(this)}
+								resetArticle={this.resetArticle.bind(this)}
+								articles_confirm_edit={this.props.articles_confirm_edit}
+								articles_edit={this.props.articles_edit}
+								articles_increment={this.props.articles_increment}
+								articles_decrement={this.props.articles_decrement}
+								articles_delete={this.props.articles_delete}
+								articles_add_article={this.props.articles_add_article}
+								setState={this.setState.bind(this)}
+								windows={this.state.windows}
+							/>
+					: this.state.windows == 5 ? 
+							<Cart
+								cart={this.props.articles.cart}
+								articles_cart_add={this.props.articles_cart_add}
+								articles_cart_remove={this.props.articles_cart_remove}
+								articles_cart_delete={this.props.articles_cart_delete}
+								cart_reset={this.props.cart_reset}
+								cart_confirm={this.props.cart_confirm}
+								totalPrice={totalPrice}
+								setState={this.setState.bind(this)}
+								windows={this.state.windows}
 							/>
 					: ""
 							

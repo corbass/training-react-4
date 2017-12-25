@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: center; 
 }
 
 .App-logo {
@@ -20,6 +20,24 @@
 
 .App-intro {
   font-size: large;
+}
+
+.fond {
+  background-image: url('./Image/fond2.jpg');
+  background-position: center; 
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 78vh;
+  overflow:hidden;
+  word-Wrap:break-word;
+  width: 100%;
+}
+
+.fond2 {
+  background: url('./Image/table2.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 78vh;
 }
 
 @keyframes App-logo-spin {
